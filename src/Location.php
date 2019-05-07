@@ -94,6 +94,8 @@ class Location
      */
     private $shortNeighborhood = '';
 
+    private $fullAddress = '';
+    
     /**
      * @var boolean Whether the location is valid or not
      */
@@ -167,6 +169,10 @@ class Location
                 $this->neighborhood = $component->long_name;
                 $this->shortNeighborhood = $component->short_name;
             }
+        }
+        
+        if (!empty($locationDetail->results[0]->formatted_address)) {
+            $this->fullAddress = $locationDetail->results[0]->formatted_address;
         }
 
         return true;
@@ -359,6 +365,7 @@ class Location
     {
         return $this->neighborhood ?: $default;
     }
+
     /**
      * Gets the short neighborhood address of the location
      *
@@ -370,4 +377,17 @@ class Location
     {
         return $this->shortNeighborhood ?: $default;
     }
+    
+     /**
+     * Gets the short neighborhood address of the location
+     *
+     * @param string $default
+     *
+     * @return string
+     */
+    public function getFullAddress($default = '')
+    {
+        return $this->fullAddress ?: $default;
+    }
+
 }
